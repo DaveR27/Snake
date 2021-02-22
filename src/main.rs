@@ -15,6 +15,18 @@ use std::iter::FromIterator;
 
 struct Game {
     gl: GlGraphics,
+    snake: Snake,
+}
+
+struct Snake {
+    pos_x: i32,
+    pos_y: i32,
+}
+
+impl Snake {
+    fn render(&self, gl: &mut GlGraphics, args: &RenderArgs) {
+        
+    }
 }
 
 impl Game {
