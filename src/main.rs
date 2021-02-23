@@ -12,7 +12,10 @@ use piston::window::WindowSettings;
 
 #[derive(Clone, PartialEq)]
 enum Direction {
-    Right, Left, Up, Down,
+    RIGHT, 
+    LEFT, 
+    UP, 
+    DOWN,
 }
 
 struct Game {
@@ -46,14 +49,14 @@ impl Game {
 
         self.snake.dir = match btn {
             &Button::Keyboard(Key::Up)
-                if last_direction != Direction::Down => Direction::Up,
+                if last_direction != Direction::DOWN => Direction::UP,
             &Button::Keyboard(Key::Down)
-                if last_direction != Direction::Up => Direction::Down,
+                if last_direction != Direction::UP => Direction::DOWN,
             &Button::Keyboard(Key::Left)
-                if last_direction != Direction::Right => Direction::Left,
+                if last_direction != Direction::RIGHT => Direction::LEFT,
             &Button::Keyboard(Key::Right)
-                if last_direction != Direction::Left => Direction::Right,
-            _ => last_direction
+                if last_direction != Direction::LEFT => Direction::RIGHT,
+            _ => last_direction,
         };
     }
 }
@@ -88,10 +91,10 @@ impl Snake {
     // Controls the direction of the snake
     fn update(&mut self) {
         match self.dir {
-            Direction::Left => self.pos_x -= 1,
-            Direction::Right => self.pos_x += 1,
-            Direction::Up => self.pos_x -= 1,
-            Direction::Down => self.pos_x += 1,
+            Direction::LEFT => self.pos_x -= 1,
+            Direction::RIGHT => self.pos_x += 1,
+            Direction::UP => self.pos_y -= 1,
+            Direction::DOWN => self.pos_y += 1,
         }
     }
 }
@@ -127,7 +130,7 @@ fn main() {
     let opengl = OpenGL::V3_2;
 
     // Creates a Glutin Window
-    let mut window: Window = WindowSettings::new("Snake", [300, 300])
+    let mut window: Window = WindowSettings::new("Snake", [500, 500])
     .graphics_api(opengl)
     .exit_on_esc(true)
     .build()
@@ -135,7 +138,7 @@ fn main() {
 
     let mut game = Game {
         gl: GlGraphics::new(opengl),
-        snake: Snake {pos_x: 1, pos_y: 1, dir: Direction::Right},
+        snake: Snake {pos_x: 1, pos_y: 1, dir: Direction::RIGHT},
         apple: Apple {pos_x: 5, pos_y: 5, points: 10},
         score: 0,
     };
@@ -156,6 +159,6 @@ fn main() {
             if k.state == ButtonState::Press {
                 game.pressed(&k.button);
             }
-        }
+        } 
     }
 }
